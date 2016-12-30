@@ -9,10 +9,9 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 //use Illuminate\Auth\Access\Response;
 class JokesController extends Controller {
+
     public function __construct() {
         $this->middleware('jwt.auth');
-//        $payload = JWTAuth::parseToken()->getPayload();
-        
     }
 
     public function index(Request $request) {
@@ -34,6 +33,7 @@ class JokesController extends Controller {
                     )->select('id', 'body', 'user_id')->paginate($limit);
         }
         return \Response::json([
+                    'status' => true,
                     'data' => $this->transformCollection($jokes)
                         ], 400);
     }
@@ -59,43 +59,47 @@ class JokesController extends Controller {
     }
 
     public function store(Request $request) {
-        $userId=JWTAuth::parseToken()->toUser()->id;
         if (!$request->body) {
             return \Response::json([
+                        'status' => false,
                         'error' => ['message' => 'Please Provide both body']
                             ], 422);
         }
-        $data=$request->all();
-       
-        $data['user_id']=$userId;
+        $userId = JWTAuth::parseToken()->toUser()->id;
+        $data = $request->all();
+        $data['user_id'] = $userId;
         $joke = Joke::create($data);
         return \Response::json([
+                    'status' => true,
                     'message' => 'Joke Created Successfully',
                     'data' => $this->transform($joke)
         ]);
     }
 
     public function update(Request $request, $id) {
-        if (!$request->body or ! $request->user_id) {
+        if (!$request->body) {
             return \Response::json([
+                        'status' => false,
                         'error' => ['message' => 'Please provide both body and user_id']
                             ], 422);
         }
+        $userId = JWTAuth::parseToken()->toUser()->id;
         $joke = Joke::find($id);
         $joke->body = $request->body;
-        $joke->user_id = $request->user_id;
+        $joke->user_id = $userId;
         $joke->save();
     }
 
     public function destroy($id) {
         if (!Joke::destroy($id)) {
             return \Response::json([
+                        'status' => false,
                         'error' => ['message' => 'id not found']
                             ], 422);
         }
         return \Response::json([
+                    'status' => false,
                     'message' => 'Joke Created Successfully',
-                    'status' => true
         ]);
     }
 
