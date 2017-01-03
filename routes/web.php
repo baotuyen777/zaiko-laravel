@@ -15,11 +15,22 @@ Route::get('/', function () {
     return view('welcome');
 });
 //Route::resource('jokes', 'JokesController');
-Route::group(['middleware' => 'cors','prefix' => 'api/v1'], function() {
+Route::group(['middleware' => 'cors', 'prefix' => 'api/v1'], function() {
     Route::resource('jokes', 'JokesController');
 });
-
-Route::group(['middleware' => 'cors','prefix' => 'api/v1'], function() {
+/** product */
+Route::group(['middleware' => 'cors', 'prefix' => 'api/v1'], function() {
+    Route::resource('product', 'ProductsController');
+});
+/** user */
+Route::group(['middleware' => 'cors', 'prefix' => 'api/v1'], function() {
+    Route::resource('user', 'UsersController');
+});
+/** order */
+Route::group(['middleware' => 'cors', 'prefix' => 'api/v1'], function() {
+    Route::resource('order', 'OrdersController');
+});
+Route::group(['middleware' => 'cors', 'prefix' => 'api/v1'], function() {
     Route::resource('authenticate', 'AuthenticateController', ['only' => ['index']]);
     Route::post('authenticate', 'AuthenticateController@authenticate');
     Route::get('authenticate/user', 'AuthenticateController@getAuthenticatedUser');

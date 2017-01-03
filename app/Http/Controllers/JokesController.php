@@ -44,7 +44,7 @@ class JokesController extends Controller {
                     }))->find($id);
         if (!$joke) {
             return \Response::json([
-                        'error' => ['message' => 'Jokes does not exist']
+                        'message' => 'Jokes does not exist'
                             ], 404);
         }
         //get previous joke id
@@ -62,7 +62,7 @@ class JokesController extends Controller {
         if (!$request->body) {
             return \Response::json([
                         'status' => false,
-                        'error' => ['message' => 'Please Provide both body']
+                        'message' => 'Please provide both body'
                             ], 422);
         }
         $userId = JWTAuth::parseToken()->toUser()->id;
@@ -80,26 +80,37 @@ class JokesController extends Controller {
         if (!$request->body) {
             return \Response::json([
                         'status' => false,
-                        'error' => ['message' => 'Please provide both body and user_id']
+                        'message' => 'Please provide both body'
                             ], 422);
         }
         $userId = JWTAuth::parseToken()->toUser()->id;
         $joke = Joke::find($id);
-        $joke->body = $request->body;
-        $joke->user_id = $userId;
-        $joke->save();
+      
+        if ($joke != null) {
+            $joke->body = $request->body;            
+            $tmpJoke = $joke->toArray();
+            $joke->save($tmpJoke);
+            return \Response::json([
+                        'status' => true,
+                        'message' => 'Joke Update Successfully',
+            ]);
+        }
+        return \Response::json([
+                    'status' => false,
+                    'message' => 'Jokes does not exist'
+                        ], 422);
     }
 
     public function destroy($id) {
         if (!Joke::destroy($id)) {
             return \Response::json([
                         'status' => false,
-                        'error' => ['message' => 'id not found']
+                        'message' => 'Jokes does not exist'
                             ], 422);
         }
         return \Response::json([
                     'status' => false,
-                    'message' => 'Joke Created Successfully',
+                    'message' => 'Joke Delete Successfully',
         ]);
     }
 
