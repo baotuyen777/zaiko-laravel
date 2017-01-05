@@ -26,7 +26,7 @@ class ProductsController extends Controller {
         return \Response::json([
                     'status' => true,
                     'data' => $this->transformCollection($products)
-                        ], 400);
+                        ], 200);
     }
 
     public function show($id) {

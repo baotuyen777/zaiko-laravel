@@ -3,11 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/xampp/htdocs/zaiko/app/Product.php</file>
-            <file>file:/F:/xampp/htdocs/zaiko/app/Http/Controllers/ProductsController.php</file>
-            <file>file:/F:/xampp/htdocs/zaiko/app/User.php</file>
-            <file>file:/F:/xampp/htdocs/zaiko/routes/web.php</file>
-            <file>file:/F:/xampp/htdocs/zaiko/app/Http/Controllers/JokesController.php</file>
+            <file>file:/F:/xampp/htdocs/zaiko/public/.htaccess</file>
         </group>
     </open-files>
 </project-private>
